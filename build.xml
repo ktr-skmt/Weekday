@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+
+<project name="antsample" default="compile">
+
+  <target name="compile">
+    <javac srcdir="./src" destdir="./bin" />
+  </target>
+
+  <target name="clean">
+    <delete dir="./bin" includes="*.class" />
+  </target>
+
+  <target name="target2">
+    <echo message="Target 2"/>
+  </target>
+
+</project>

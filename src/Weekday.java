@@ -1,7 +1,7 @@
 
 public class Weekday {
-	static String num2week(int correction) {
-		switch (correction) {
+	static String num2weekday(int c) {
+		switch (c) {
 			case 0: return "Sunday";
 			case 1: return "Monday";
 			case 2: return "Tuesday";
@@ -14,9 +14,9 @@ public class Weekday {
 	}
 	
 	public static void main(String[] args) {	
-		boolean istheCommonEra = false;
-		int year = 1, month = 2, day = 30;
-		String weekday = num2week(RomanCalendar.correction(istheCommonEra, year, month, day));
+		boolean istheCommonEra = true;
+		int year = 1, month = 1, day = 1;
+		String weekday = num2weekday((new RomanCalendar()).correction(istheCommonEra, year, month, day));
 		System.out.println(weekday);
 	}
 }

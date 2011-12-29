@@ -1,6 +1,6 @@
 
 public class Weekday {
-	static String weekday(int correction) {
+	static String num2week(int correction) {
 		switch (correction) {
 			case 0: return "Sunday";
 			case 1: return "Monday";
@@ -9,17 +9,14 @@ public class Weekday {
 			case 4: return "Thursday";
 			case 5: return "Friday";
 			case 6: return "Saturday";
-			default : return "error";
+			default : return "This day does NOT exist.";
 		}
 	}
 	
 	public static void main(String[] args) {	
 		boolean istheCommonEra = false;
 		int year = 1, month = 2, day = 30;
-		String weekday = RomanCalendar.isCalendar(istheCommonEra, year, month, day)
-			? weekday(RomanCalendar.correction(istheCommonEra, year, month, day))
-			: "This day does NOT exist.";
+		String weekday = num2week(RomanCalendar.correction(istheCommonEra, year, month, day));
 		System.out.println(weekday);
 	}
-
 }

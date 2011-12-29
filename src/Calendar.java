@@ -1,17 +1,16 @@
 
-abstract class Calendar{
-	static int correctedByCalendar;
-	static int correctedByYear(int year, int parameter){return 0;}
-	static boolean isLeapYearOftheCommonEra(int year){return false;};
+abstract class Calendar {
+	public int correctedByYear(int year, int parameter) { return 0; }
+	public boolean isLeapYearOftheCommonEra(int year) { return false; };
 	
-	static int getParameterForYearCorrection(boolean istheCommonEra, int month) {
+	public int getParameterForYearCorrection(boolean istheCommonEra, int month) {
 			int parameter = 0;
 			if (!istheCommonEra) parameter++;
 			if (month == 1 || month == 2) parameter++;
 			return parameter;
 	}
 	
-	static int correctedByMonth(int month) {
+	public int correctedByMonth(int month) {
 			if (month == 5) {
 					return 1;
 			} else if (month == 8) {
@@ -29,11 +28,11 @@ abstract class Calendar{
 			}
 	}
 	
-	static int correctedByDay(int day) {
+	public int correctedByDay(int day) {
 			return day;
 	}
 	
-	static int correctedBytheCommonEra(int year, int month, int day) {
+	public int correctedBytheCommonEra(int year, int month, int day, int correctedByCalendar) {
 			int c = correctedByMonth(month)
 							+ correctedByDay(day)
 							+ correctedByYear(year, getParameterForYearCorrection(true, month))
@@ -43,7 +42,7 @@ abstract class Calendar{
 			return c < 0 ? c + 7 : c;
 	}
 	
-	static int correctedByBeforetheCommonEra(int year, int month, int day) {
+	public int correctedByBeforetheCommonEra(int year, int month, int day, int correctedByCalendar) {
 			int c = correctedByMonth(month) 
 							+ correctedByDay(day)
 							+ correctedByYear(year, getParameterForYearCorrection(false, month))
@@ -52,28 +51,28 @@ abstract class Calendar{
 			return c < 0 ? c + 7 : c;
 	}
 	
-	static int correction(boolean istheCommonEra, int year, int month, int day) {
-			return istheCommonEra ? correctedBytheCommonEra(year, month, day) : correctedByBeforetheCommonEra(year, month, day);
+	public int correction(boolean istheCommonEra, int year, int month, int day, int correctedByCalendar) {
+			return istheCommonEra ? correctedBytheCommonEra(year, month, day, correctedByCalendar) : correctedByBeforetheCommonEra(year, month, day, correctedByCalendar);
 	}
 	
 	//check
-	static boolean isYear(int year) {
+	public boolean isYear(int year) {
 			return year > 0 ? true : false;
 	}
 	
-	static boolean isLeapYear(boolean istheCommonEra, int year) {
+	public boolean isLeapYear(boolean istheCommonEra, int year) {
 			return istheCommonEra ? isLeapYearOftheCommonEra(year) : isLeapYearOfBeforetheCommonEra(year);
 	}
 	
-	static boolean isLeapYearOfBeforetheCommonEra(int year) {
+	public boolean isLeapYearOfBeforetheCommonEra(int year) {
 			return isLeapYearOftheCommonEra(year - 1);
 	}
 	
-	static boolean isMonth(int month) {
+	public boolean isMonth(int month) {
 			return month > 0 && month < 13 ? true : false;
 	}
 	
-	static boolean isDay(boolean isLeapYear, int month, int day) {
+	public boolean isDay(boolean isLeapYear, int month, int day) {
 			return day > 0
 					? month == 4 || month == 6 || month == 9 || month == 11 
 							? day < 31
@@ -86,26 +85,31 @@ abstract class Calendar{
 					: false;
 	}
 	
-	static boolean istheCommonEra(int year, int month, int day) {
+	public boolean istheCommonEra(int year, int month, int day) {
 			return isYear(year) && isMonth(month) && isDay(isLeapYear(true, year), month, day) && !isOctober1582(true, year, month, day);
 	}
 	
-	static boolean isBeforetheCommonEra(int year, int month, int day) {
+	public boolean isBeforetheCommonEra(int year, int month, int day) {
 			return isYear(year) && isMonth(month) && isDay(isLeapYear(false, year), month, day);
 	}
 	
-	static boolean isCalendar(boolean istheCommonEra, int year, int month, int day) {
+	public boolean isCalendar(boolean istheCommonEra, int year, int month, int day) {
 			return istheCommonEra ? istheCommonEra(year, month, day) : isBeforetheCommonEra(year, month, day);
 	}
-	static int correctedByOctober1582(boolean istheCommonEra, int year, int month, int day) {
+	
+	public int correctedByOctober1582(boolean istheCommonEra, int year, int month, int day) {
 		return isAfterOctober1582(istheCommonEra, year, month, day) ? -10 : 0; 
 	}
 	
-	static boolean isOctober1582(boolean istheCommonEra, int year, int month, int day) {
+	public boolean isOctober1582(boolean istheCommonEra, int year, int month, int day) {
 		return istheCommonEra && year == 1582 && month == 10 && day > 4 && day < 15 ? true : false;
 	}
 	
-	static boolean isAfterOctober1582(boolean istheCommonEra, int year, int month, int day) {
+	public boolean isAfterOctober1582(boolean istheCommonEra, int year, int month, int day) {
 		return istheCommonEra && (year > 1582 || year == 1582 && (month > 10 || month == 10 && day > 14));
+	}
+	
+	public boolean isAfter46CE(boolean istheCommonEra, int year) {
+		return istheCommonEra ? true : year < 46 ? true : false;
 	}
 }
